@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faulty Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            gap: 5vh;
+        }
+
+        h1 {
+            color: #6dcf39;
+        }
+
+        .container {
+            background: #010101;
+            padding: 20px;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 20px;
+        }
+
+        .screen {
+            height: 155px;
+            margin: 5px;
+            text-align: right;
+            font-size: 24px;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .sepration {
+            background-color: #171717;
+            height: 2px;
+            margin: 20px 0px;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-areas:
+                "g1 g2 g3 p"
+                "g4 g5 g6 m"
+                "g7 g8 g9 ml"
+                "c g0 d e";
+            gap: 12px;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            background-color: #171717;
+            border: none;
+            font-size: 30px;
+        }
+
+        .numsss {
+            color: white;
+            font-size: 30px;
+        }
+
+        .clear {
+            color: rgb(231, 107, 100);
+        }
+
+        .op {
+            color: #6dcf39;
+            font-size: 40px;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .equals {
+            color: white;
+            font-size: 40px;
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            background-color: #6dcf39;
+        }
+
+        .QR {
+            color: white;
+            font-size: 40px;
+        }
+
+        .result {
+            color: #6dcf39;
+            font-size: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>This is a Faulty Calculator</h1>
+    <div class="container">
+        <div class="screen" id="screen">
+            <p id="num" class="QR">0</p>
+            <r id="result" class="result"></r>
+        </div>
+        <div class="sepration"></div>
+        <div class="keypad">
+            <button style="grid-area:g1;" class="numsss" value="1" onclick="updateScreen(1)">1</button>
+            <button style="grid-area:g2;" class="numsss" value="2" onclick="updateScreen(2)">2</button>
+            <button style="grid-area:g3;" class="numsss" value="3" onclick="updateScreen(3)">3</button>
+            <button style="grid-area:g4;" class="numsss" value="4" onclick="updateScreen(4)">4</button>
+            <button style="grid-area:g5;" class="numsss" value="5" onclick="updateScreen(5)">5</button>
+            <button style="grid-area:g6;" class="numsss" value="6" onclick="updateScreen(6)">6</button>
+            <button style="grid-area:g7;" class="numsss" value="7" onclick="updateScreen(7)">7</button>
+            <button style="grid-area:g8;" class="numsss" value="8" onclick="updateScreen(8)">8</button>
+            <button style="grid-area:g9;" class="numsss" value="9" onclick="updateScreen(9)">9</button>
+            <button style="grid-area:g0;" class="numsss" value="0" onclick="updateScreen(0)">0</button>
+            <button style="grid-area:p;" value="+" class="op" onclick="setOperation('+')">+</button>
+            <button style="grid-area:m;" value="-" class="op" onclick="setOperation('-')">-</button>
+            <button style="grid-area:ml;" value="*" class="op" onclick="setOperation('*')">×</button>
+            <button style="grid-area:d;" value="/" class="op" onclick="setOperation('/')">/</button>
+            <button style="grid-area:e;" value="=" class="equals" onclick="calculateResult()">=</button>
+            <button style="grid-area:c;" class="clear" value="clear" onclick="clearScreen()">Ｃ</button>
+        </div>
+    </div>
+
+    <script>
+        let currentValue = '0';
+        let operator = null;
+        let previousValue = null;
+
+
+        function updateScreen(value) {
+            if (currentValue === '0') {
+                currentValue = value.toString();
+            } else {
+                currentValue += value.toString();
+            }
+            if (previousValue === null) {
+                document.getElementById('num').textContent = currentValue;
+            }
+            else {
+                document.getElementById('num').textContent = previousValue + ' ' + operator + ' ' + currentValue;
+            }
+        }
+
+
+        function setOperation(op) {
+            if (previousValue !== null && currentValue !== '0') {
+                calculateResult();
+            }
+            operator = op;
+            previousValue = currentValue;
+            currentValue = '0';
+
+            document.getElementById('num').textContent = previousValue + ' ' + operator;
+        }
+
+
+        function calculateResult() {
+            if (previousValue !== null && operator !== null) {
+                let result;
+                switch (operator) {
+                    case '+':
+                        result = parseFloat(previousValue) + parseFloat(currentValue);
+                        break;
+                    case '-':
+                        result = parseFloat(previousValue) - parseFloat(currentValue);
+                        break;
+                    case '*':
+                        result = parseFloat(previousValue) * parseFloat(currentValue);
+                        break;
+                    case '/':
+                        if (currentValue === '0') {
+                            result = 'Error';
+                        } else {
+                            result = parseFloat(previousValue) / parseFloat(currentValue);
+                        }
+                        break;
+                    default:
+                        return;
+                }
+                currentValue = result.toString();
+                previousValue = null;
+                operator = null;
+                document.getElementById('result').textContent = currentValue;
+            }
+        }
+
+
+        function clearScreen() {
+            currentValue = '0';
+            previousValue = null;
+            operator = null;
+            document.getElementById('num').textContent = currentValue;
+            document.getElementById('result').textContent = '';
+        }
+    </script>
+</body>
+
+</html>
