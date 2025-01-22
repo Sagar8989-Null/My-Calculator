@@ -22,7 +22,7 @@ To install My Calculator, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/My-Calculator.git
+    git clone https://github.com/Sagar8989-Null/My-Calculator.git
     ```
 2. Navigate to the project directory:
     ```bash
