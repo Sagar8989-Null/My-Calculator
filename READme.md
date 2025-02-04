@@ -29,9 +29,7 @@ To install My Calculator, follow these steps:
     cd My-Calculator
     ```
 3. Run the application:
-    ```bash
-    python calculator.py
-    ```
+   Click on the Browsericon  
 
 ## Contributing
 
